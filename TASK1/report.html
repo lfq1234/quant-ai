@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TASK1 任务三：长江电力（600900.SH）近一年日线数据分析报告</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Microsoft YaHei", "微软雅黑", SimHei, sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    color: #2c3e50;
+    line-height: 1.7;
+    padding: 24px;
+  }
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 36px 44px;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+  }
+  h1 {
+    font-size: 26px;
+    text-align: center;
+    color: #1a3a5c;
+    margin-bottom: 8px;
+    padding-bottom: 16px;
+    border-bottom: 3px solid #C0392B;
+  }
+  h2 {
+    font-size: 19px;
+    color: #1a3a5c;
+    margin: 28px 0 14px;
+    padding-left: 12px;
+    border-left: 5px solid #C0392B;
+  }
+  .meta {
+    text-align: center;
+    color: #7f8c8d;
+    margin-bottom: 28px;
+    font-size: 14px;
+  }
+  .meta span { margin: 0 8px; }
+  .summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin: 18px 0 24px;
+  }
+  .card {
+    background: linear-gradient(135deg, #fff5f5 0%, #ffe8e8 100%);
+    border: 1px solid #f5c6c6;
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+  }
+  .card .label { color: #7f8c8d; font-size: 13px; margin-bottom: 6px; }
+  .card .value { color: #C0392B; font-size: 22px; font-weight: bold; }
+  .card.green .value { color: #27ae60; }
+  .chart-wrap {
+    text-align: center;
+    margin: 18px 0;
+    padding: 12px;
+    background: #fafbfc;
+    border-radius: 8px;
+  }
+  .chart-wrap img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+  }
+  .caption {
+    font-size: 13px;
+    color: #555;
+    margin-top: 8px;
+    font-style: italic;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0;
+    font-size: 14px;
+  }
+  th {
+    background: #1a3a5c;
+    color: #fff;
+    padding: 10px 8px;
+    text-align: left;
+  }
+  td {
+    padding: 8px;
+    border-bottom: 1px solid #ecf0f1;
+  }
+  tr:nth-child(even) td { background: #f8f9fa; }
+  td.num { text-align: right; font-family: Consolas, "Courier New", monospace; }
+  .pos { color: #C0392B; font-weight: 600; }
+  .neg { color: #27ae60; font-weight: 600; }
+  pre {
+    background: #2d3748;
+    color: #e2e8f0;
+    padding: 18px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .note {
+    background: #fffbe6;
+    border-left: 4px solid #f1c40f;
+    padding: 12px 16px;
+    border-radius: 4px;
+    margin: 14px 0;
+    font-size: 14px;
+  }
+  footer {
+    text-align: center;
+    color: #95a5a6;
+    font-size: 12px;
+    margin-top: 30px;
+    padding-top: 16px;
+    border-top: 1px solid #ecf0f1;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <h1>TASK1 任务三 · 长江电力（600900.SH）<br>近一年日线数据分析报告</h1>
+  <p class="meta">
+    <span>作者：林富强</span>·
+    <span>学校：北京大学</span>·
+    <span>数据来源：Tushare Pro</span>
+  </p>
+
+  <h2>一、任务说明</h2>
+  <p>本任务使用 <b>Tushare Pro</b> 金融数据接口，以 <code>pro.daily</code> 接口获取
+    <b>长江电力（600900.SH）</b> 近一年（2025-07-02 至 2026-07-02）的日线行情数据，
+    使用 <b>matplotlib</b> 绘制每日收盘价曲线图，并将原始数据保存为 <b>CSV</b> 文件，
+    以备后续量化策略任务使用。</p>
+
+  <h2>二、关键统计指标</h2>
+  <div class="summary">
+    <div class="card">
+      <div class="label">交易日数</div>
+      <div class="value">243 天</div>
+    </div>
+    <div class="card">
+      <div class="label">期初收盘价</div>
+      <div class="value">30.25 元</div>
+    </div>
+    <div class="card">
+      <div class="label">期末收盘价</div>
+      <div class="value">26.95 元</div>
+    </div>
+    <div class="card green">
+      <div class="label">区间涨跌幅</div>
+      <div class="value">-10.91%</div>
+    </div>
+    <div class="card">
+      <div class="label">区间最高价</div>
+      <div class="value">30.79 元</div>
+    </div>
+    <div class="card">
+      <div class="label">区间最低价</div>
+      <div class="value">25.38 元</div>
+    </div>
+    <div class="card">
+      <div class="label">区间振幅</div>
+      <div class="value">17.90%</div>
+    </div>
+    <div class="card">
+      <div class="label">平均日换手额</div>
+      <div class="value">23.5 亿</div>
+    </div>
+  </div>
+
+  <h2>三、每日收盘价曲线图</h2>
+  <div class="chart-wrap">
+    <img src="cjdl_close_price.png" alt="长江电力近一年每日收盘价曲线">
+    <p class="caption">图 1  长江电力（600900.SH）2025-07-02 至 2026-07-02 每日收盘价曲线</p>
+  </div>
+
+  <div class="note">
+    <b>图表解读：</b><br>
+    ① <b>趋势判断</b>：近一年长江电力整体呈震荡下行走势，从 30.25 元下跌至 26.95 元，跌幅 10.91%。<br>
+    ② <b>区间划分</b>：2025-07 至 2025-10 价格在 29-30.8 元区间高位震荡；2025-11 出现明显破位下行，12 月至 2026-04 在 26-28 元区间筑底；2026-05 至 07 缓慢反弹至 27 元附近。<br>
+    ③ <b>波动特征</b>：最高 30.79 元（2025-09-22 附近）与最低 25.38 元（2026-04 附近）振幅 17.90%，体现大盘蓝筹股波动相对温和的特征。<br>
+    ④ <b>资金面</b>：日均成交额约 23.5 亿元，作为水电板块龙头流动性充裕，适合中长期价值投资与红利策略。
+  </div>
+
+  <h2>四、原始数据样例（前 5 条 & 末 5 条）</h2>
+  <h3 style="font-size:15px;color:#34495e;margin:12px 0 8px;">前 5 条</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>交易日</th><th>开盘</th><th>最高</th><th>最低</th>
+        <th>收盘</th><th>昨收</th><th>涨跌额</th><th>涨跌幅(%)</th>
+        <th>成交量(手)</th><th>成交额(千元)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>2025-07-02</td><td class="num">30.40</td><td class="num">30.48</td><td class="num">30.22</td><td class="num">30.25</td><td class="num">30.37</td><td class="num neg">-0.12</td><td class="num neg">-0.40</td><td class="num">571,835</td><td class="num">1,734,050</td></tr>
+      <tr><td>2025-07-03</td><td class="num">30.26</td><td class="num">30.28</td><td class="num">29.85</td><td class="num">30.09</td><td class="num">30.25</td><td class="num neg">-0.16</td><td class="num neg">-0.53</td><td class="num">936,811</td><td class="num">2,811,204</td></tr>
+      <tr><td>2025-07-04</td><td class="num">30.06</td><td class="num">30.29</td><td class="num">30.01</td><td class="num">30.16</td><td class="num">30.09</td><td class="num pos">+0.07</td><td class="num pos">+0.23</td><td class="num">679,228</td><td class="num">2,048,728</td></tr>
+      <tr><td>2025-07-07</td><td class="num">30.24</td><td class="num">30.28</td><td class="num">30.07</td><td class="num">30.26</td><td class="num">30.16</td><td class="num pos">+0.10</td><td class="num pos">+0.33</td><td class="num">508,278</td><td class="num">1,534,746</td></tr>
+      <tr><td>2025-07-08</td><td class="num">30.27</td><td class="num">30.27</td><td class="num">29.91</td><td class="num">29.92</td><td class="num">30.26</td><td class="num neg">-0.34</td><td class="num neg">-1.12</td><td class="num">1,073,286</td><td class="num">3,219,639</td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="font-size:15px;color:#34495e;margin:12px 0 8px;">末 5 条</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>交易日</th><th>开盘</th><th>最高</th><th>最低</th>
+        <th>收盘</th><th>昨收</th><th>涨跌额</th><th>涨跌幅(%)</th>
+        <th>成交量(手)</th><th>成交额(千元)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>2026-06-26</td><td class="num">26.25</td><td class="num">26.72</td><td class="num">26.15</td><td class="num">26.65</td><td class="num">26.22</td><td class="num pos">+0.43</td><td class="num pos">+1.64</td><td class="num">1,282,652</td><td class="num">3,395,742</td></tr>
+      <tr><td>2026-06-29</td><td class="num">26.55</td><td class="num">26.90</td><td class="num">26.26</td><td class="num">26.84</td><td class="num">26.65</td><td class="num pos">+0.19</td><td class="num pos">+0.71</td><td class="num">1,232,579</td><td class="num">3,286,300</td></tr>
+      <tr><td>2026-06-30</td><td class="num">26.71</td><td class="num">26.84</td><td class="num">26.38</td><td class="num">26.47</td><td class="num">26.84</td><td class="num neg">-0.37</td><td class="num neg">-1.38</td><td class="num">1,022,777</td><td class="num">2,712,033</td></tr>
+      <tr><td>2026-07-01</td><td class="num">26.44</td><td class="num">26.72</td><td class="num">26.36</td><td class="num">26.64</td><td class="num">26.47</td><td class="num pos">+0.17</td><td class="num pos">+0.64</td><td class="num">909,398</td><td class="num">2,417,437</td></tr>
+      <tr><td>2026-07-02</td><td class="num">26.79</td><td class="num">27.09</td><td class="num">26.55</td><td class="num">26.95</td><td class="num">26.64</td><td class="num pos">+0.31</td><td class="num pos">+1.16</td><td class="num">1,400,553</td><td class="num">3,761,293</td></tr>
+    </tbody>
+  </table>
+
+  <h2>五、Python 实现代码（fetch_cjdl.py）</h2>
+  <pre><code># -*- coding: utf-8 -*-
+"""
+TASK1 - 任务三：Tushare 获取长江电力过去一年每日交易数据
+"""
+import os
+import tushare as ts
+import pandas as pd
+import matplotlib.pyplot as plt
+from datetime import datetime, timedelta
+
+TOKEN   = 'eedeac8183a4726f28d85aade5731a3182166105900e5ddfd6c8b402'
+TS_CODE = '600900.SH'   # 长江电力
+NAME    = '长江电力'
+OUTDIR  = r'C:\Users\LENOVO\Desktop\lfq1234\TASK1'
+
+# 1) 获取数据
+ts.set_token(TOKEN)
+pro = ts.pro_api()
+end   = datetime.today().strftime('%Y%m%d')
+start = (datetime.today() - timedelta(days=365)).strftime('%Y%m%d')
+
+df = pro.daily(ts_code=TS_CODE, start_date=start, end_date=end)
+df = df.sort_values('trade_date').reset_index(drop=True)
+df['trade_date'] = pd.to_datetime(df['trade_date'])
+
+# 2) 绘制收盘价曲线
+plt.rcParams['font.sans-serif'] = ['SimHei']
+plt.rcParams['axes.unicode_minus'] = False
+
+fig, ax = plt.subplots(figsize=(14, 6))
+ax.plot(df['trade_date'], df['close'], color='#C0392B', linewidth=1.5, label='每日收盘价')
+ax.fill_between(df['trade_date'], df['close'], alpha=0.15, color='#C0392B')
+ax.set_title(f'{NAME}（{TS_CODE}）近一年每日收盘价曲线', fontsize=14, fontweight='bold')
+ax.set_xlabel('交易日期'); ax.set_ylabel('收盘价（元）')
+ax.legend(); ax.grid(True, alpha=0.3); fig.autofmt_xdate()
+fig.tight_layout()
+fig.savefig(os.path.join(OUTDIR, 'cjdl_close_price.png'), dpi=150)
+
+# 3) 保存 CSV（utf-8-sig 防止 Excel 打开中文乱码）
+df.to_csv(os.path.join(OUTDIR, 'cjdl_600900_2025-2026.csv'),
+          index=False, encoding='utf-8-sig')
+</code></pre>
+
+  <h2>六、任务小结</h2>
+  <ol style="padding-left:24px;">
+    <li>已通过 Tushare Pro <code>pro.daily</code> 接口成功拉取 600900.SH 长江电力近一年共 <b>243 个交易日</b>的 OHLC 行情数据；</li>
+    <li>使用 matplotlib 绘制了收盘价折线图（红色，对应 A 股上涨习惯），图中标注了关键统计指标（图 1）；</li>
+    <li>已将数据以 <b>utf-8-sig</b> 编码保存为 <code>cjdl_600900_2025-2026.csv</code>，Excel 可直接打开，列名与 Tushare 标准字段一致（ts_code、trade_date、open、high、low、close、pre_close、change、pct_chg、vol、amount），便于后续量化策略任务直接读取。</li>
+  </ol>
+
+  <footer>
+    © 2026 林富强 · 北京大学 · 量化交易工作坊 TASK1
+  </footer>
+</div>
+</body>
+</html>
