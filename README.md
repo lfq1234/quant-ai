@@ -31,5 +31,39 @@ quant-ai/
 │   ├── chart_boll.png        # 布林带指标图表
 │   ├── chart_kdj.png         # KDJ 指标图表
 │   └── conversation_log.md   # 对话记录
+├── TASK3/                    # 策略实战：均线交叉策略回测系统
+│   ├── 林富强+TASK3.pdf      # 最终作业 PDF
+│   ├── 林富强+TASK3.docx     # Word 源文件
+│   ├── README.md             # TASK3 说明文件
+│   ├── code/                 # 代码模块（模块化拆分，10个模块）
+│   │   ├── config.py         # 配置中心：数据类、枚举、路径常量
+│   │   ├── data_loader.py    # 数据加载（CSV / Tushare）
+│   │   ├── indicators.py     # 技术指标（RSI、ATR、均线）
+│   │   ├── entry_rules.py    # 入场规则（金叉 + RSI + 量能）
+│   │   ├── position_manager.py  # 仓位管理（四种模式）
+│   │   ├── exit_rules.py     # 出场规则（止盈/止损/信号/时间）
+│   │   ├── risk_manager.py   # 风险控制（四层防线）
+│   │   ├── backtest_engine.py   # 回测引擎
+│   │   ├── plots.py          # 绘图模块
+│   │   ├── main.py           # 主入口
+│   │   └── generate_report.py   # 报告生成
+│   ├── data/                 # 数据文件
+│   │   ├── 600519_data.csv   # 贵州茅台日线
+│   │   ├── 601318_data.csv   # 中国平安日线
+│   │   ├── cjdl_600900_2025-2026.csv  # 长江电力日线
+│   │   └── backtest_results.json     # 回测结果
+│   └── images/               # 图片资源
+│       ├── 5_15/             # MA5/MA15 策略图表（3张）
+│       ├── 5_20/             # MA5/MA20 策略图表（5张）
+│       └── comparison_*.png  # 对比类图表（3张）
 └── README.md
 ```
+
+## TASK3 重构备注
+
+> 2026-07-11：TASK3 完成代码模块化重构
+
+- **背景**：原始 `strategy_backtest.py` 为 1131 行单体文件，逻辑高度耦合，不利于复用
+- **改动**：按职责拆分为 10 个独立模块（config / data_loader / indicators / entry_rules / position_manager / exit_rules / risk_manager / backtest_engine / plots / main）
+- **目录整理**：图片按均线周期分类到 `images/5_15/` 和 `images/5_20/`，对比图放 `images/` 根目录；数据统一放 `data/`；代码统一放 `code/`
+- **验证**：模块化代码运行结果与原单体文件完全一致，PDF 已重新生成
