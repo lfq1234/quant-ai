@@ -35,6 +35,7 @@ quant-ai/
 │   ├── 林富强+TASK3.pdf      # 最终作业 PDF
 │   ├── 林富强+TASK3.docx     # Word 源文件
 │   ├── README.md             # TASK3 说明文件
+│   ├── conversation_log.md   # 本次会话记录
 │   ├── code/                 # 代码模块（模块化拆分，10个模块）
 │   │   ├── config.py         # 配置中心：数据类、枚举、路径常量
 │   │   ├── data_loader.py    # 数据加载（CSV / Tushare）
