@@ -1,0 +1,126 @@
+{
+  "breast_cancer": [
+    {
+      "模型": "Linear Regression",
+      "Accuracy": 0.9561,
+      "Precision": 0.9467,
+      "Recall": 0.9861,
+      "F1": 0.966,
+      "AUC": 0.9924,
+      "TP": 71,
+      "TN": 38,
+      "FP": 4,
+      "FN": 1
+    },
+    {
+      "模型": "Logistic Regression",
+      "Accuracy": 0.9825,
+      "Precision": 0.9861,
+      "Recall": 0.9861,
+      "F1": 0.9861,
+      "AUC": 0.9954,
+      "TP": 71,
+      "TN": 41,
+      "FP": 1,
+      "FN": 1
+    },
+    {
+      "模型": "Decision Tree",
+      "Accuracy": 0.9211,
+      "Precision": 0.9565,
+      "Recall": 0.9167,
+      "F1": 0.9362,
+      "AUC": 0.9163,
+      "TP": 66,
+      "TN": 39,
+      "FP": 3,
+      "FN": 6
+    },
+    {
+      "模型": "Random Forest",
+      "Accuracy": 0.9561,
+      "Precision": 0.9589,
+      "Recall": 0.9722,
+      "F1": 0.9655,
+      "AUC": 0.9939,
+      "TP": 70,
+      "TN": 39,
+      "FP": 3,
+      "FN": 2
+    },
+    {
+      "模型": "KNN",
+      "Accuracy": 0.9561,
+      "Precision": 0.9589,
+      "Recall": 0.9722,
+      "F1": 0.9655,
+      "AUC": 0.9788,
+      "TP": 70,
+      "TN": 39,
+      "FP": 3,
+      "FN": 2
+    }
+  ],
+  "stock": [
+    {
+      "模型": "Linear Regression",
+      "Accuracy": 0.4222,
+      "Precision": 0.3571,
+      "Recall": 0.2273,
+      "F1": 0.2778,
+      "AUC": 0.3439,
+      "TP": 5,
+      "TN": 14,
+      "FP": 9,
+      "FN": 17
+    },
+    {
+      "模型": "Logistic Regression",
+      "Accuracy": 0.4,
+      "Precision": 0.3333,
+      "Recall": 0.2273,
+      "F1": 0.2703,
+      "AUC": 0.3458,
+      "TP": 5,
+      "TN": 13,
+      "FP": 10,
+      "FN": 17
+    },
+    {
+      "模型": "Decision Tree",
+      "Accuracy": 0.4,
+      "Precision": 0.3913,
+      "Recall": 0.4091,
+      "F1": 0.4,
+      "AUC": 0.4585,
+      "TP": 9,
+      "TN": 9,
+      "FP": 14,
+      "FN": 13
+    },
+    {
+      "模型": "Random Forest",
+      "Accuracy": 0.4667,
+      "Precision": 0.4444,
+      "Recall": 0.3636,
+      "F1": 0.4,
+      "AUC": 0.3913,
+      "TP": 8,
+      "TN": 13,
+      "FP": 10,
+      "FN": 14
+    },
+    {
+      "模型": "KNN",
+      "Accuracy": 0.3778,
+      "Precision": 0.3333,
+      "Recall": 0.2727,
+      "F1": 0.3,
+      "AUC": 0.3597,
+      "TP": 6,
+      "TN": 11,
+      "FP": 12,
+      "FN": 16
+    }
+  ]
+}
