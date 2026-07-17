@@ -106,6 +106,40 @@ quant-ai/
 │   └── images/               # 图片资源（共 20 张）
 │       ├── breast_cancer_fig1~7_*.png   # 乳腺癌数据集: 7 张
 │       └── stock_600900_fig1~7_*.png    # 股票数据集: 7 张
+├── TASK6/                    # 智能决策者：机器学习截面选股策略
+│   ├── 林富强TASK6.pdf       # 最终作业 PDF
+│   ├── 林富强TASK6.docx      # Word 源文件
+│   ├── README.md             # TASK6 说明文件
+│   ├── spec.md               # 任务规范文档
+│   ├── code/                 # 代码模块（6 个包，30 个 .py 文件）
+│   │   ├── main.py           # 主入口：全流程一键运行
+│   │   ├── build_report.py   # 报告生成：docx → PDF
+│   │   ├── config/           # 配置中心（5 文件）
+│   │   │   ├── paths.py / params.py / features.py / style.py
+│   │   ├── data_loader/      # 数据加载与因子工程（7 文件）
+│   │   │   ├── universe.py / tushare_api.py / factors.py / panel.py / split.py
+│   │   ├── models/           # 模型定义与训练（3 文件）
+│   │   │   ├── builders.py / trainer.py
+│   │   ├── strategy/         # 交易策略（4 文件）
+│   │   │   ├── portfolio.py / backtest.py / benchmark.py
+│   │   ├── evaluation/       # 评估指标（3 文件）
+│   │   │   ├── metrics.py / display.py
+│   │   └── visualization/    # 可视化（10 文件）
+│   │       ├── _common.py / cumulative_return.py / drawdown.py / quarterly_return_bar.py
+│   │       ├── model_comparison.py / ic_curve.py / feature_importance.py / bonus_comparison.py
+│   ├── data/                 # 数据文件
+│   │   ├── raw_daily/        # 100 只 A 股原始日线 CSV
+│   │   ├── panel_with_factors.csv  # 因子面板（12 因子 + 标签）
+│   │   └── backtest_results.json   # 回测结果
+│   └── images/               # 图片资源（共 8 张）
+│       ├── fig1_cumulative_return.png      # 累计净值曲线
+│       ├── fig2_drawdown.png               # 回撤曲线
+│       ├── fig3_quarterly_return.png       # 季度收益柱状图
+│       ├── fig4_model_comparison.png       # 模型对比
+│       ├── fig5_ic_curve.png               # IC 时序曲线
+│       ├── fig6_feature_importance.png     # RF 因子重要性
+│       ├── fig7_xgb_feature_importance.png # XGBoost 因子重要性
+│       └── fig8_bonus_n_sensitivity.png    # 附加题：持仓数敏感性
 └── README.md
 ```
 
@@ -142,3 +176,22 @@ quant-ai/
   - 股票数据集：五模型 AUC 均低于 0.5，验证简单技术指标预测短期走势困难
 - **输出**：每个数据集 7 张图（4 混淆矩阵 + ROC 曲线 + AUC 柱状图 + 特征重要性），共 14+ 张图
 - **验证**：`main.py` 和 `generate_report.py` 均一次跑通，重构前后结果完全一致
+
+## TASK6 备注
+
+> 2026-07-17：TASK6 机器学习截面选股策略完成
+
+- **任务**：从单股时序预测升级到全市场截面选股——每季度末用 ML 模型预测收益率排序，选 Top-30 持仓，季度调仓
+- **股票池**：自选 100 只 A 股（覆盖 17 个行业板块，Tushare 积分友好）
+- **因子体系**：12 个技术因子（动量 4 + 均线 3 + 波动 2 + 换手 2 + RSI 1），按季度截面缩尾 + 标准化
+- **模型**：Linear Regression + Decision Tree + Random Forest + XGBoost 四模型完整对比
+- **时间划分**：训练集 2015-2020（24 季度），测试集 2021-2024（16 季度），严格时间顺序
+- **代码架构**：在 TASK5 五包基础上新增 `strategy/` 包（portfolio + backtest + benchmark），共 6 包 30 个 .py 文件
+- **附加题**：持仓数敏感性分析（N=10/30/50/100），用 RF 模型对比收益/风险 trade-off
+- **关键发现**：
+  - XGBoost 最优（年化 3.10%，Sharpe 0.17），唯一跑赢等权基准（2.25%）
+  - Decision Tree 微幅超基准（2.40%），Linear Regression 最差（-3.83%）
+  - XGBoost 的 IC 为正（+0.013），是唯一方向预测正确的模型
+  - 量价类因子（换手率、RSI）对截面收益预测贡献最大
+- **踩坑**：Tushare `adj_factor` API 限流严重（1次/分钟），改用 `pct_chg` 累积构建后复权价格
+- **输出**：8 张图表 + 14 页 PDF 报告（宋体/五号/1.5 倍行距/0 段距/两端对齐）
