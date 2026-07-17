@@ -1,0 +1,13 @@
+# -*- coding: utf-8 -*-
+"""TASK6 配置中心 -- 统一导出路径、参数、因子配置和可视化样式"""
+
+from .paths import TASK6_DIR, DATA_DIR, IMAGES_DIR, RAW_DIR, CODE_DIR, REPORT_DIR, PANEL_FILE, RESULTS_FILE
+from .params import (
+    RANDOM_STATE, MODEL_PARAMS, TRAIN_END_YEAR,
+    TOP_N, COST_PER_TRADE, QUARTER_END_DATES,
+)
+from .features import FEATURE_COLS, FACTOR_GROUPS
+from .style import (
+    COLOR_RED, COLOR_GREEN, COLOR_BLUE, COLOR_ORANGE, COLOR_PURPLE,
+    MODEL_COLORS, BENCH_COLOR, FONT_SANS_SERIF,
+)

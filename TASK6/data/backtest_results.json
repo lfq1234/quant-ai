@@ -1,0 +1,78 @@
+{
+  "summary": [
+    {
+      "model": "Linear Regression",
+      "total_return": -0.1364,
+      "annual_return": -0.0383,
+      "annual_vol": 0.1716,
+      "sharpe": -0.2234,
+      "max_drawdown": -0.2277,
+      "quarter_win_rate": 0.4667,
+      "n_quarters": 15,
+      "excess_return": -0.05700917897928471,
+      "info_ratio": -0.9388320756731892,
+      "win_rate_vs_bench": 0.26666666666666666,
+      "bench_annual_return": 0.022489057009706936
+    },
+    {
+      "model": "Decision Tree",
+      "total_return": 0.093,
+      "annual_return": 0.024,
+      "annual_vol": 0.1731,
+      "sharpe": 0.1386,
+      "max_drawdown": -0.1692,
+      "quarter_win_rate": 0.4667,
+      "n_quarters": 15,
+      "excess_return": 0.0054689362569171176,
+      "info_ratio": 0.08297118330659659,
+      "win_rate_vs_bench": 0.3333333333333333,
+      "bench_annual_return": 0.022489057009706936
+    },
+    {
+      "model": "Random Forest",
+      "total_return": -0.0478,
+      "annual_return": -0.013,
+      "annual_vol": 0.1944,
+      "sharpe": -0.0668,
+      "max_drawdown": -0.2045,
+      "quarter_win_rate": 0.4667,
+      "n_quarters": 15,
+      "excess_return": -0.02748773730461961,
+      "info_ratio": -0.44204928982474306,
+      "win_rate_vs_bench": 0.3333333333333333,
+      "bench_annual_return": 0.022489057009706936
+    },
+    {
+      "model": "XGBoost",
+      "total_return": 0.1213,
+      "annual_return": 0.031,
+      "annual_vol": 0.185,
+      "sharpe": 0.1676,
+      "max_drawdown": -0.1661,
+      "quarter_win_rate": 0.5333,
+      "n_quarters": 15,
+      "excess_return": 0.014487118238181183,
+      "info_ratio": 0.2569743629866056,
+      "win_rate_vs_bench": 0.5333333333333333,
+      "bench_annual_return": 0.022489057009706936
+    }
+  ],
+  "ic_summary": {
+    "Linear Regression": {
+      "mean_ic": -0.08688102276075808,
+      "mean_rank_ic": -0.10783798379837982
+    },
+    "Decision Tree": {
+      "mean_ic": -0.025996369911869068,
+      "mean_rank_ic": -0.028975010480174843
+    },
+    "Random Forest": {
+      "mean_ic": -0.004033888303466115,
+      "mean_rank_ic": -0.027393939393939384
+    },
+    "XGBoost": {
+      "mean_ic": 0.013308126346795198,
+      "mean_rank_ic": -0.02224062406240624
+    }
+  }
+}
