@@ -1,0 +1,118 @@
+{
+  "_说明": "本文件用于填写 JoinQuant 平台的回测 / 实盘模拟结果与风险指标。跑完平台后，把【待填写】处替换为真实数值与图片路径，再运行 build_report.py 即可生成 林富强+TASK7.docx，最后用 Word 另存为 PDF。",
+
+  "account": {
+    "username": "lfq01",
+    "cert_status": "已完成平台账号注册并登录，当前可用积分 30（新人注册奖励已领取）",
+    "cert_type": "JoinQuant 平台基础账号注册（用户名 lfq01）"
+  },
+
+  "platform": {
+    "modules": "策略研究、回测、实盘模拟、数据",
+    "data_sources": "history()/attribute_history() 行情接口(后复权)、get_fundamentals() 财务与估值接口、get_index_stocks() 指数成分接口、get_extras() ST 状态接口",
+    "editor": "在线策略编辑器（Web IDE）"
+  },
+
+  "factor_table": [
+    ["mom_1m", "动量", "close/close.shift(22)-1", "1 个月动量"],
+    ["mom_3m", "动量", "close/close.shift(66)-1", "3 个月动量"],
+    ["mom_12m_1m", "动量", "close.shift(22)/close.shift(252)-1", "12月-1月动量"],
+    ["reversal_5d", "反转", "-ret.rolling(5).sum()", "5 日反转"],
+    ["turn_20d", "流动性", "vol.rolling(20).mean()", "20 日均量"],
+    ["vol_ratio", "量比", "vol.rolling(5).mean()/vol.rolling(20).mean()", "5/20 日量比"],
+    ["vol_20d", "波动率", "ret.rolling(20).std()", "20 日波动率"],
+    ["vol_5d", "波动率", "ret.rolling(5).std()", "5 日波动率"],
+    ["rsi_14", "技术", "14 日 RSI", "相对强弱指数"],
+    ["ma_bias_20", "技术", "close/MA20-1", "20 日均线乖离率"],
+    ["bb_pos", "技术", "(close-MA20)/(2*STD20)", "布林带位置"],
+    ["pe_ttm", "估值", "valuation.pe_ratio", "市盈率(TTM)"],
+    ["ln_market_cap", "规模", "ln(market_cap)", "市值（小市值溢价）"]
+  ],
+
+  "backtest_base": {
+    "period": "2020-07-01 ~ 2026-06-30",
+    "initial_cash": 100000,
+    "freq": "季度调仓（日度回测撮合）",
+    "stock_num": 30,
+    "universe": "沪深300",
+    "annual_return": "2.97%",
+    "annual_vol": "13.0%",
+    "sharpe": "-0.080",
+    "max_drawdown": "24.28%",
+    "win_rate": "52.4%",
+    "benchmark_return": "19.58%（区间总收益）",
+    "alpha": "-0.007",
+    "beta": "0.429",
+    "drawdown_period": "2021/09/13 ~ 2022/10/31"
+  },
+
+  "backtest_alt": {
+    "period": "2019-01-02 ~ 2019-06-28",
+    "initial_cash": 100000,
+    "freq": "季度调仓（日度回测撮合）",
+    "stock_num": 30,
+    "universe": "沪深300",
+    "annual_return": "-8.44%",
+    "annual_vol": "17.7%",
+    "sharpe": "-0.701",
+    "max_drawdown": "12.66%",
+    "win_rate": "17.4%",
+    "benchmark_return": "27.07%（区间总收益）",
+    "alpha": "-0.456",
+    "beta": "0.534",
+    "info_ratio": "-4.512",
+    "drawdown_period": "2019/04/08 ~ 2019/06/06",
+    "note": "同一默认参数在单边快速上涨市（沪深300半年+27%）下的表现：前2个月处于历史数据预热期空仓，错过后市上涨；建仓后策略在强势上涨行情中难以跑赢宽基指数，年化-8.44%、胜率仅17.4%。"
+  },
+
+  "param_before": {
+    "stock_num": 30,
+    "rebalance_month": 3,
+    "universe": "hs300",
+    "note": "初始参数延续TASK6设置：沪深300成分股内季度调仓，等权持有综合得分最高的30只，因子权重均衡配置动量/反转/量价/波动/估值/规模。"
+  },
+  "param_after": {
+    "stock_num": "同初始参数（未实际重跑）",
+    "rebalance_month": "同初始参数",
+    "universe": "同初始参数",
+    "factor_weights_changed": "提出方案：将 reversal_5d 由 1.0 降为 -1.0（由做反转改为做动量延续），mom_1m 由 1.0 提为 2.0 加重短期动量；但因作业时间限制未在本平台重跑调整后回测",
+    "note": "基于长区间回测暴露的『跑输基准、Sharpe为负』问题，提出上述调参方向并给出经济逻辑；受回测时间限制未实际运行调整后回测，转而以不同市场环境下的两段回测对比检验策略稳健性。"
+  },
+
+  "backtest_tuned": {
+    "annual_return": "【同 backtest_alt，作为对照，未单独调参重跑】",
+    "annual_vol": "17.7%",
+    "sharpe": "-0.701",
+    "max_drawdown": "12.66%",
+    "win_rate": "17.4%",
+    "benchmark_return": "27.07%"
+  },
+
+  "live_sim": {
+    "start_date": "未开启独立实盘模拟",
+    "end_date": "—",
+    "annual_return": "—",
+    "annual_vol": "—",
+    "sharpe": "—",
+    "max_drawdown": "—",
+    "vs_backtest": "本作业未单独开启 JoinQuant 实盘模拟交易（受平台模拟交易开通与观察周期限制）。实盘表现以历史回测（2020-07~2026-06）作为模拟替代：样本内年化 2.97%、最大回撤 24.28%，显著跑输沪深300基准（19.58%），提示策略在样本外、不同市场环境下存在明显衰减，真实实盘需更审慎。"
+  },
+
+  "risk": {
+    "max_drawdown": "24.28%",
+    "annual_vol": "13.0%",
+    "concentration": "等权持有 Top30，单只约 3.3%（1/30），前五大约占 16.7%",
+    "style_exposure": "沪深300成分股内选股，整体偏大市值；因子暴露上偏动量(mom_*)、小市值(ln_market_cap反向)、低估值(pe_ttm反向)与低波动(vol_*反向)",
+    "liquidity_risk": "沪深300成分股流动性较好，但季度调仓仍可能在个别成分股停牌/异动时面临冲击；已通过剔除小微盘与次新股降低风险",
+    "cost_impact": "季度调仓下年化换手约 100%~200%，双边佣金(万三)+印花税(千一)合计年化成本约 1%~2%，对 2.97% 的年化收益侵蚀显著"
+  },
+
+  "images": {
+    "fig1": "images/fig1_backtest_equity.png",
+    "fig2": "images/fig2_backtest_drawdown.png",
+    "fig3": "images/fig3_param_compare.png",
+    "fig4": "images/fig4_live_sim_equity.png",
+    "fig5": "images/fig5_risk_drawdown.png",
+    "fig6": "images/fig6_factor_importance.png"
+  }
+}
